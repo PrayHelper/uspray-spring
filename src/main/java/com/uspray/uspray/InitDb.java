@@ -120,30 +120,48 @@ public class InitDb {
 
             Category category = Category.builder()
                 .name("기타 카테고리")
-                .color("#FFFFFF")
+                .color("#75BD62")
                 .member(member)
                 .order(1024)
                 .categoryType(CategoryType.PERSONAL)
                 .build();
             em.persist(category);
 
-            Category category1 = Category.builder()
+            Category category1_by_member = Category.builder()
                 .name("가족")
-                .color("#408CFF")
+                .color("#75BD62")
                 .member(member)
                 .order(2048)
                 .categoryType(CategoryType.PERSONAL)
                 .build();
-            em.persist(category1);
+            em.persist(category1_by_member);
 
-            Category category2 = Category.builder()
+            Category category2_by_member2 = Category.builder()
                 .name("친구")
-                .color("#408CFF")
+                .color("#75BD62")
                 .member(member2)
                 .categoryType(CategoryType.PERSONAL)
-                .order(2048)
+                .order(1024)
                 .build();
-            em.persist(category2);
+            em.persist(category2_by_member2);
+
+            Category category3_by_member = Category.builder()
+                .name("공유 카테고리")
+                .color("#75BD62")
+                .member(member)
+                .categoryType(CategoryType.SHARED)
+                .order(1024)
+                .build();
+            em.persist(category3_by_member);
+
+            Category category4_by_member2 = Category.builder()
+                .name("공유 카테고리")
+                .color("#75BD62")
+                .member(member2)
+                .categoryType(CategoryType.SHARED)
+                .order(1024)
+                .build();
+            em.persist(category4_by_member2);
 
             Pray pray = Pray.builder()
                 .content("테스트 기도")
@@ -158,26 +176,26 @@ public class InitDb {
                 .content("공유 테스트 기도")
                 .deadline(LocalDate.parse("2025-01-01"))
                 .member(member2)
-                .category(category2)
+                .category(category2_by_member2)
                 .prayType(PrayType.PERSONAL)
                 .build();
             em.persist(pray_1);
 
             Pray pray1 = Pray.builder()
-                .content("기도합니다")
+                .content("공유 테스트 기도")
                 .deadline(LocalDate.parse("2025-02-24"))
                 .member(member)
-                .category(category)
+                .category(category3_by_member)
                 .prayType(PrayType.SHARED)
                 .originPrayId(pray_1.getId())
                 .build();
             em.persist(pray1);
 
             Pray pray2 = Pray.builder()
-                .content("기도할게요")
+                .content("테스트 기도")
                 .deadline(LocalDate.parse("2024-02-24"))
                 .member(member2)
-                .category(category2)
+                .category(category4_by_member2)
                 .prayType(PrayType.SHARED)
                 .originPrayId(pray.getId())
                 .build();
@@ -187,7 +205,7 @@ public class InitDb {
                 .content("기도할게요")
                 .deadline(LocalDate.parse("2024-02-02"))
                 .member(member)
-                .category(category1)
+                .category(category1_by_member)
                 .prayType(PrayType.PERSONAL)
                 .build();
             em.persist(pray3);

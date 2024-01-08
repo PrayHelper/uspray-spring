@@ -111,10 +111,11 @@ public class CategoryService {
         return CategoryResponseDto.of(category);
     }
 
-    public List<CategoryResponseDto> getCategoryList(String username, CategoryType categoryType) {
+    public List<CategoryResponseDto> getCategoryList(String username, String categoryType) {
         Member member = memberRepository.getMemberByUserId(username);
+        CategoryType convertCategoryType = CategoryType.valueOf(categoryType.toUpperCase());
         List<Category> categories = categoryRepository.getCategoriesByMemberAndCategoryTypeOrderByOrder(
-            member, categoryType);
+            member, convertCategoryType);
         return categories.stream()
             .map(CategoryResponseDto::of)
             .collect(Collectors.toList());

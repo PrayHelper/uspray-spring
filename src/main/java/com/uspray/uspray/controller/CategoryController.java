@@ -3,7 +3,6 @@ package com.uspray.uspray.controller;
 import com.uspray.uspray.DTO.ApiResponseDto;
 import com.uspray.uspray.DTO.category.CategoryRequestDto;
 import com.uspray.uspray.DTO.category.CategoryResponseDto;
-import com.uspray.uspray.Enums.CategoryType;
 import com.uspray.uspray.exception.SuccessStatus;
 import com.uspray.uspray.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,7 +57,7 @@ public class CategoryController {
     @GetMapping
     public ApiResponseDto<List<CategoryResponseDto>> getCategoryList(
         @Parameter(hidden = true) @AuthenticationPrincipal User user,
-        @Parameter(description = "카테고리 종류", required = true, example = "PERSONAL") CategoryType categoryType
+        @Parameter(description = "카테고리 종류(personal, shared)", required = true, example = "personal") String categoryType
     ) {
         return ApiResponseDto.success(SuccessStatus.GET_CATEGORY_LIST_SUCCESS,
             categoryService.getCategoryList(user.getUsername(), categoryType));
