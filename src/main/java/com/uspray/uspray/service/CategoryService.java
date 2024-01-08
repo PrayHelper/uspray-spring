@@ -27,18 +27,20 @@ public class CategoryService {
     private final PrayFacade prayFacade;
 
     private static int getNewOrder(int index, List<Category> categories, Category category) {
-        validateIndex(index, categories.size());
         Category targetPosition = categories.get(index - 1);
+
         if (targetPosition.equals(category)) { // 원하는 위치가 지금 내 위치와 같으면
             return targetPosition.getOrder();
         }
+
         if (index == 1) { // 원하는 위치가 첫번째면
             return getFirstPositionOrder(categories);
         }
+
         if (index == categories.size()) { // 원하는 위치가 마지막이면
             return getLastPositionOrder(targetPosition);
         }
-        return getMiddlePositionOrder(targetPosition, categories.get(index - 2));
+        return getMiddlePositionOrder(targetPosition, category, categories, index);
     }
 
     private static void validateIndex(int index, int size) {
@@ -56,11 +58,12 @@ public class CategoryService {
         return prevCategory.getOrder() + 1024;
     }
 
-    private static int getMiddlePositionOrder(Category targetCategory, Category prevCategory) {
-        // 원하는 위치가 중간이면 원하는 자리와 그 앞자리 중간으로
-        System.out.println("prevCategory.getOrder() : " + targetCategory.getOrder());
-        System.out.println("nextCategory.getOrder() : " + prevCategory.getOrder());
-        return (targetCategory.getOrder() + prevCategory.getOrder()) / 2;
+    private static int getMiddlePositionOrder(Category targetCategory, Category currCategory,
+        List<Category> categories, int index) {
+        // 원하는 위치가 내 위치보다 앞이면 원하는 자리와 그 앞자리 중간으로
+        // 원하는 위치가 내 위치보다 뒤면 원하는 자리와 그 뒷자리 중간으로
+        int prevIndex = targetCategory.getOrder() < currCategory.getOrder() ? index - 2 : index;
+        return (targetCategory.getOrder() + categories.get(prevIndex).getOrder()) / 2;
     }
 
     public CategoryResponseDto createCategory(String username,
@@ -102,6 +105,7 @@ public class CategoryService {
         List<Category> categories = categoryRepository.getCategoriesByMemberAndCategoryTypeOrderByOrder(
             member, category.getCategoryType());
 
+        validateIndex(index, categories.size());
         int newOrder = getNewOrder(index, categories, category);
 
         category.updateOrder(newOrder);
