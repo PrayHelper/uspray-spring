@@ -1,16 +1,17 @@
 package com.uspray.uspray.DTO.auth.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class MemberLoginRequestDto {
 
     @NotBlank

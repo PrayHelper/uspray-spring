@@ -45,8 +45,6 @@ public class AuthService {
 
     @Transactional
     public MemberResponseDto signup(MemberRequestDto memberRequestDto) {
-        // 핸드폰번호가 존재하거나 아이디가 존재하면 에러
-        // 핸드폰 번호 또는 아이디가 이미 존재하는지 확인
         if (memberRepository.existsByUserId(memberRequestDto.getUserId())) {
             throw new NotFoundException(ErrorStatus.ALREADY_EXIST_ID_EXCEPTION);
         }

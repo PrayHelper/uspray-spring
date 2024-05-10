@@ -43,6 +43,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
+    @Operation(summary = "회원가입")
     @ApiResponse(
         responseCode = "201",
         description = "회원가입 성공",
@@ -103,7 +104,8 @@ public class AuthController {
     @GetMapping("/name")
     @Operation(summary = "회원 이름 조회")
     @SecurityRequirement(name = "JWT Auth")
-    public ApiResponseDto<MemberNameResponseDto> getName(@Parameter(hidden = true) @AuthenticationPrincipal User user) {
+    public ApiResponseDto<MemberNameResponseDto> getName(
+        @Parameter(hidden = true) @AuthenticationPrincipal User user) {
         return ApiResponseDto.success(SuccessStatus.GET_USER_NAME_SUCCESS,
             authService.getMemberName(user.getUsername()));
     }
@@ -129,7 +131,9 @@ public class AuthController {
     @GetMapping("/login-check")
     @Operation(summary = "사용한 로그인 방식 체크(일반, 소셜)")
     @SecurityRequirement(name = "JWT Auth")
-    public ApiResponseDto<LoginTypeResponseDto> loginCheck (@Parameter(hidden = true) @AuthenticationPrincipal User user) {
-        return ApiResponseDto.success(SuccessStatus.LOGIN_CHECK_SUCCESS, authService.loginCheck(user.getUsername()));
+    public ApiResponseDto<LoginTypeResponseDto> loginCheck(
+        @Parameter(hidden = true) @AuthenticationPrincipal User user) {
+        return ApiResponseDto.success(SuccessStatus.LOGIN_CHECK_SUCCESS,
+            authService.loginCheck(user.getUsername()));
     }
 }
