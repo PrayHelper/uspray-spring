@@ -12,8 +12,6 @@ import com.uspray.uspray.Enums.PrayType;
 import com.uspray.uspray.domain.Category;
 import com.uspray.uspray.domain.Member;
 import com.uspray.uspray.domain.Pray;
-import com.uspray.uspray.exception.ErrorStatus;
-import com.uspray.uspray.exception.model.CustomException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,8 +34,8 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
             .orderBy(category.order.asc())
             .fetch();
 
-        if (categories.size() == 0) {
-            throw new CustomException(ErrorStatus.NO_CATEGORY_EXCEPTION);
+        if (categories.isEmpty()) {
+            return new ArrayList<>();
         }
 
         // 각 카테고리 별로 PrayResponseDto 목록 가져오기
